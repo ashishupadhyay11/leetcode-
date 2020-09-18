@@ -1,0 +1,56 @@
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+int merge(vector<int>&a, vector<int>&temp, int low, int mid, int high){
+    int i=low, j=mid, k=low;
+    int count = 0;
+    
+    while((i<=mid-1) && (j<=high)){
+        if(a[i]<=a[j])
+            temp[k++]=a[i++];
+        else {
+            temp[k++]=a[j++];
+            count= count + (mid-i);
+        }
+    }
+    while(i<=mid-1)
+        temp[k++]=a[i++];
+    while(j<=high)
+        temp[k++]=a[j++];
+       
+    for(i=low; i<=high;i++)
+        a[i]=temp[i];
+        
+    return count;
+}
+int _merge(vector<int>&a, vector<int>&temp, int low, int high){
+    int count = 0;
+    int mid;
+   
+    if(low<high){
+        mid = (low+high)/2;
+        
+        count+= _merge(a,temp,low,mid);
+        count+= _merge(a,temp,mid+1,high);
+        
+        count+= merge(a, temp, low, mid+1, high);
+    }
+    return count;
+}
+int32_t main() {
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        vector<int>a(n);
+        vector<int>temp(n);
+        for(int i=0; i<n;i++)
+            cin>>a[i];
+       
+        int ans = _merge(a, temp, 0, n-1);     
+        cout<<ans<<endl;
+    }
+    return 0;
+}
