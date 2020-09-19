@@ -1,0 +1,47 @@
+int Solution::uniquePaths(int a, int b) {
+    int dp[a][b];
+    
+    for(int i=0; i<a;i++)
+    {
+        for(int j=0; j<b; j++)
+        {
+            if(i==0 || j==0)
+            dp[i][j]=1;
+            
+            else
+            dp[i][j]=dp[i-1][j]+dp[i][j-1];
+        }
+    }
+    return dp[a-1][b-1];
+}
+
+class Solution {
+public:
+    int count(int m, int n, vector<vector<int>>&dp, int i=0, int j=0){
+        if(dp[i][j]!=-1)
+            return dp[i][j];
+        if(j>n-1 || i>m-1)
+            return 0;
+        if(j==n-1 && i==m-1)
+            return 1;
+        return dp[i][j]=count(m,n,dp,i+1,j)+count(m,n,dp,i,j+1);
+    }
+    int uniquePaths(int m, int n) {
+        vector<vector<int>>dp(m+1, vector(n+1,-1));
+        return count(m, n, dp);
+    }
+};
+
+//Optimal https://www.youtube.com/watch?v=t_f0nwwdg5o&list=PLgUwDviBIf0rPG3Ictpu74YWBQ1CaBkm2&index=17
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        int N = m-1 + n-1;         //total steps on every path
+        int r = m-1;               //N and r of NCr //10C3 = 10*8*9/1*2*3 
+        double res = 1;
+        for(int i =1; i<=r; i++)
+            res = res * (N-r+i)/i;
+        return (int)res;
+    }
+};
+
