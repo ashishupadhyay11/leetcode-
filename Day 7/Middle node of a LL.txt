@@ -1,0 +1,22 @@
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head){
+        unordered_map<int, ListNode*>mp;
+        int size;
+        for(size=0; head!=NULL; size++){
+            mp[size]=head,head = head ->next;
+        return mp[size/2];
+    }
+};
+
+//slow-fast pointers
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head){
+        ListNode* slow=head, *fast=head;
+        
+        while(fast!=NULL && fast->next!=NULL)
+            slow = slow->next, fast = fast->next->next;
+        return slow;									//when fast is at the end, slow will be in the middle
+    }
+};

@@ -1,0 +1,19 @@
+https://www.youtube.com/watch?v=YudrUAYUr-k
+https://leetcode.com/problems/xor-queries-of-a-subarray/
+class Solution {
+public:
+    vector<int> xorQueries(vector<int>& arr, vector<vector<int>>& queries) {
+        vector<int>xors(arr.size());
+        vector<int>result;
+        xors[0]=arr[0];
+        for(int i=1; i<arr.size();i++)
+            xors[i]= xors[i-1]^arr[i];
+        
+        for(int i=0; i<queries.size();i++){
+                if(queries[i][0]==0)
+                    result.push_back(xors[queries[i][1]]);
+                else result.push_back(xors[queries[i][1]]^(xors[queries[i][0]-1]));  	//XOR of two equal nums = 0
+        }
+        return result;
+    }
+};

@@ -1,0 +1,42 @@
+
+class Solution {
+public:
+ struct ListNode *s, *head=NULL;
+ void sortingpointer(ListNode* x, ListNode* y){
+
+     if(!y) return;
+     
+     if(x->val <= y->val)
+        s = x, x=x->next;
+     else
+         s = y, y=y->next;
+     head=s;
+         
+     while(x!=NULL && y!=NULL){
+         if(x->val <= y->val){
+             s->next=x;
+             x=x->next;
+         }
+         else{
+             s->next=y;
+             y=y->next;
+         }
+         s=s->next;
+     }
+     s->next = x?x:y;
+     s=head;
+ }
+    ListNode* mergeKLists(vector<ListNode*>&a) {
+        if(a.empty()) return nullptr;
+        int i=0;
+        for(; i<a.size();i++)
+            if(a[i]) {
+                s=a[i];
+                break;
+            }
+        for(i=i+1; i<a.size(); i++)
+            sortingpointer(s,a[i]);
+        
+        return s;
+    }
+};
