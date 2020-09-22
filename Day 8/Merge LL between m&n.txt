@@ -1,0 +1,27 @@
+//Refer diagram
+
+ListNode* reverseBetween(ListNode* a, int m, int n) {
+        if(!a || !a->next) return a;
+        ListNode *prev, *curr, *nextnode, *connect, *tail;
+        curr = a;
+        prev=NULL;
+        while(m>1){
+            prev=curr;
+            curr = curr->next;
+            m--, n--;
+        }
+        connect = prev;
+        tail = curr;
+        while(n>0){
+            nextnode = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr=nextnode;
+            
+            n--;
+        }
+        if(connect) connect->next = prev;
+        else a = prev;
+        tail->next=curr;
+        return a;
+    }

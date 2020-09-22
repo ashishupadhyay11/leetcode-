@@ -1,0 +1,16 @@
+
+ListNode* Solution::detectCycle(ListNode* a) {
+   ListNode* slow=a, *fast=a;
+   while(fast && fast->next){
+       slow = slow->next;
+       fast = fast->next->next;
+       
+       if(fast==slow) break;
+   }
+   if(!fast || !fast->next)
+        return NULL;
+   fast = a;
+   while(slow!=fast)
+        slow=slow->next, fast = fast->next;
+    return slow;
+}

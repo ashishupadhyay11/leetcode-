@@ -1,0 +1,30 @@
+ ListNode* reverselist(ListNode* a){
+        ListNode* prev, *nextnode, *curr;
+        curr = a;
+        prev = NULL;
+        while(curr){
+            nextnode = curr->next;
+            curr ->next = prev;
+            
+            prev = curr;
+            curr = nextnode;
+        }
+        a=prev;
+        return a;
+    }
+    bool isPalindrome(ListNode* a) {
+        if(!a || !a->next) return 1;
+        ListNode* slow=a, *fast =a;
+        while(fast->next && fast->next->next){
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+        slow->next = reverselist(slow->next);
+        slow=slow->next;                      //Point slow to start of the reversed half
+        while(slow){
+            if(a->val!=slow->val)
+                return 0;
+            slow=slow->next, a=a->next;
+        }
+        return 1;
+    }
