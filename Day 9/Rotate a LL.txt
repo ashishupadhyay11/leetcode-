@@ -1,0 +1,23 @@
+ListNode* rotateRight(ListNode* head, int k) {
+        if(!head || !k || !head->next) 
+            return head;
+        
+        ListNode *fast=head, *slow=head;
+        int size = 1;
+        
+        while(k--){
+            if(fast->next)
+                fast = fast->next, size++;  //calculate size simultaneously
+            else 
+                fast=head, k%=size;         //k>size so multiple cycles
+        }
+        if(fast==head) return head;
+        
+        while(fast->next)
+            fast=fast->next, slow=slow->next;
+        
+        ListNode* start = slow->next;       //Kth node from the back is the new starting node
+        slow->next = NULL;                  //the node before kth node points to null now (new last node)
+        fast->next = head;                  //old last node connects to the old head
+        return start;
+    }

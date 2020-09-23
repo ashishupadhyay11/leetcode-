@@ -1,0 +1,17 @@
+https://www.youtube.com/watch?v=CecIdtmbhsk
+void flatten(TreeNode* root) {
+        if(!root) return;
+        flatten(root->left);
+        flatten(root->right);
+        
+        TreeNode* L = root->left;
+        TreeNode* R = root->right;
+        
+        root->left = NULL;       //remove left
+        root->right = L;         //connect left on the right side
+        TreeNode* temp = root;
+        
+        while(temp->right)
+            temp=temp->right;   //got to right most node of left
+        temp->right = R;        //connect right to bottom right of left
+    }
