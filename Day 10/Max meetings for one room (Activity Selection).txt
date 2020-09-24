@@ -1,0 +1,35 @@
+//Sort by end times and push first meeting, push next meeting if start time of next meeting>end time of last meeting
+
+#include <bits/stdc++.h>
+using namespace std;
+struct meeting{
+    int index, start, end;
+};
+bool compare(meeting m1, meeting m2){
+    return m1.end<m2.end;
+}
+int main() {
+	int t;
+	cin>>t;
+	while(t--){
+	    int n;
+	    cin>>n;
+	    meeting ar[n];
+	    for(int i=0; i<n ; i++){
+	        cin>>ar[i].start;
+	        ar[i].index=i+1;
+	    }
+	    for(int i=0; i<n;i++)
+	        cin>>ar[i].end;
+	   sort(ar,ar+n,compare);
+	   int prevend=0;
+	   for(int j=0; j<n;j++){
+	       if(ar[j].start >= prevend){           
+	           cout<<ar[j].index<<' ';
+	           prevend=ar[j].end;
+	       }
+	   }
+	   cout<<"\n";
+	}
+	return 0;
+}
