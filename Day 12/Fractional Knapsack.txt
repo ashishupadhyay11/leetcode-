@@ -1,0 +1,35 @@
+#include <bits/stdc++.h>
+using namespace std;
+struct iweight{
+    double value;
+    double weight;
+};
+bool comp(iweight i1, iweight i2){
+    return i1.value/i1.weight > i2.value/i2.weight;
+}
+int main() {
+	int t;
+	cin>>t;
+	while(t--){
+	    int n, w;
+	    cin>>n>>w;
+	    iweight items[n];
+	    
+	    for(int i=0; i<n ;i++)
+	        cin>>items[i].value>>items[i].weight;
+	    float result = 0.0;
+	    sort(items, items + n, comp);
+	    for(int i=0; i<n ;i++){
+	        if(items[i].weight<w){
+	            w = w - items[i].weight;
+	            result+=items[i].value;
+	        }
+	        else{
+	            result += (items[i].value)*(w/items[i].weight);
+	            break;
+	        }
+	    }
+	    cout<<setprecision(2)<<fixed<<result<<endl;
+	}
+	return 0;
+}

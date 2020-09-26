@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+using namespace std;
+int knapsack(int n, int w, vector<int>&val, vector<int>&weight,vector<vector<int>>&dp){
+    //base condition
+    if(n==0 || w==0)
+        return 0;
+    if(dp[n][w]!=-1)
+        return dp[n][w];
+    //choice diagram
+    if(weight[n-1]<=w)
+        return dp[n][w] = max(val[n-1]+knapsack(n-1,w-weight[n-1],val,weight,dp), //max of either of 2 choices
+                                knapsack(n-1,w,val,weight,dp));
+    else if(weight[n-1]>w)														  //Cant pick
+        return dp[n][w] = knapsack(n-1,w,val,weight,dp);
+}
+int main() {
+	int t;
+	cin>>t;
+	while(t--){
+	    int n,w;
+	    cin>>n>>w;
+	    vector<int>val(n), weight(n);
+	    for(int i=0; i<n ;i++)
+	        cin>>val[i];
+	    for(int i=0; i<n;i++)
+	        cin>>weight[i];
+	    vector<vector<int>>dp(n+1,vector<int>(w+1,-1));
+	    cout<<knapsack(n,w,val,weight, dp)<<endl;
+	}
+	return 0;
+}
