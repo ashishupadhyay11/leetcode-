@@ -1,0 +1,85 @@
+#include <bits/stdc++.h>
+using namespace std;
+//This func finds unassigned entry in the grid
+bool findunassigned(int sudoku[][9], int &row, int &col);
+
+//Checks if the num can be inserted in the given position
+bool issafe(int sudoku[][9], int row, int col, int num);
+
+//Solves the unfinished sudoku
+bool solve(int sudoku[][9]){
+    int row, col;
+    //Base case
+    if(!findunassigned(sudoku, row, col))           //This function takes values by ref, thus initialising row, col
+        return true;                                //Sudoku has been solved
+    
+    //Recursion
+    for(int num=1; num<=9;num++){
+        if(issafe(sudoku, row, col, num)){
+            sudoku[row][col] = num;
+        
+            if(solve(sudoku))
+                return true;
+        
+            //the num didnt solve the rest of the sudoku so backtrack
+            sudoku[row][col] = 0;
+        }
+    }
+    return false;
+}
+
+bool findunassigned(int sudoku[][9], int &row, int &col){
+    for(row = 0; row < 9 ; row++)
+        for(col = 0; col < 9; col++)
+            if(sudoku[row][col]==0)
+                return true;                        //stops execs, gives curr value to row, col
+    return false;                                   //No unassigned space, sudoku filled
+}
+
+bool usedinrow(int sudoku[][9], int row, int num){  //checks for num occurance in whole row
+    for(int col = 0; col<9; col++)
+        if(sudoku[row][col]==num)
+            return true;
+    return false;
+}
+
+bool usedincol(int sudoku[][9], int col, int num){  //checks for num occurance in whole col
+    for(int row=0; row<9;row++)
+        if(sudoku[row][col]==num)
+            return true;
+    return false;
+}
+
+bool usedinbox(int sudoku[][9], int boxstartrow, int boxstartcol, int num){ //checks for num in curr 3x3 box
+    for(int row=0; row<3;row++)
+        for(int col=0; col<3; col++)
+            if(sudoku[row+boxstartrow][col+boxstartcol]==num)
+                return true;
+    return false;
+}
+bool issafe(int sudoku[][9], int row, int col, int num){
+    return !usedinrow(sudoku,row,num)
+        && !usedincol(sudoku,col,num)
+        && !usedinbox(sudoku,row-row%3, col-col%3,num)
+        && sudoku[row][col]==0;
+}
+void printgrid(int sudoku[][9]){
+    for(int i=0; i<9;i++)
+        for(int j=0; j<9;j++)
+            cout<<sudoku[i][j]<<" ";
+    cout<<endl;
+}
+int main() {
+	int t;
+	cin>>t;
+	while(t--){
+	    int sudoku[9][9];
+	    for(int i=0; i<9;i++)
+	        for(int j=0; j<9;j++)
+	            cin>>sudoku[i][j];
+	            
+	    if(solve(sudoku))
+	        printgrid(sudoku);
+	}
+	return 0;
+}
