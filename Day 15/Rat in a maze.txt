@@ -1,0 +1,24 @@
+https://www.youtube.com/watch?v=_QPrHo88mAc
+void helper(int m[][5], int n, vector<string>&result,string temp, int i, int j){
+	//Base case
+    if(i<0 || i>=n || j<0 || j>=n || m[i][j]!=1)
+        return;
+    if(i==n-1 && j==n-1){
+        result.push_back(temp);
+        return;
+    }
+    
+	//Recursion
+    m[i][j]=-1;							//Mark current pos visited to avoid cycle
+    helper(m,n,result,temp+'D',i+1,j);
+    helper(m,n,result,temp+'L',i,j-1);
+    helper(m,n,result,temp+'R',i,j+1);
+    helper(m,n,result,temp+'U',i-1,j);
+    m[i][j]=1;							//Mark unvisited
+}
+vector<string> printPath(int m[MAX][MAX], int n) {
+    vector<string>result;
+    string temp="";
+    helper(m,n,result,temp,0,0);
+    return result;
+}
