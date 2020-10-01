@@ -1,0 +1,21 @@
+class Solution {
+public:
+    void combine(vector<int>&candidates, int target, vector<vector<int>>&result,vector<int>&combination, int start){
+        if(target==0){
+            result.push_back(combination);		//Combination sum found, push into result
+            return;
+        }
+        for(int i=start; i<candidates.size() && target >= candidates[i]; i++){
+            combination.push_back(candidates[i]);		//test combinations from current candidate
+            combine(candidates, target-candidates[i],result,combination,i);	//keep reducing current candidate from target till you reach 0
+            combination.pop_back();		//Backtrack
+        }
+    }
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        sort(candidates.begin(), candidates.end());
+        vector<vector<int>>result;
+        vector<int>combination;
+        combine(candidates, target, result, combination, 0);
+        return result;
+    }
+};
