@@ -1,0 +1,49 @@
+class Solution {
+public:
+    bool possibleBipartition(int n, vector<vector<int>>& dislikes) {
+        vector<vector<int>> adj(n+1);
+        vector<int> color(n+1, -1);
+        vector<bool> explored(n+1, false);
+        
+        //create adjacency list
+        for(auto &edge: dislikes){      
+            int u = edge[0];
+            int v = edge[1];
+            adj[v].push_back(u);
+            adj[u].push_back(v);
+        }
+        //queue to perform BFS over connected components in graph
+        queue<int>q;
+        
+        for(int i=1; i<=n;i++){
+            if(!explored[i]){       //if this vertex is not colored yet
+                color[i] = 0;
+                q.push(i);
+                
+                //Perform BFS from index i
+                while(!q.empty()){
+                    int u = q.front();
+                    q.pop();
+                    
+                    if(explored[u])     //if this vertex is colored, continue
+                        continue;
+                    
+                    explored[u] = true; //mark the vertex explored
+                    
+                    //check all neighbours of this vertex
+                    for(auto v: adj[u]){
+                        if(color[v]==color[u])  //a neighbour is already colored the same as curr vertex
+                            return false;       //.'. conflict of personalities, arrangement not possible
+                        
+                        if(color[u]==0)         //neighbour isnt colored so allot opposite color
+                            color[v]=1;
+                        else color[v]=0;
+                        
+                        q.push(v);
+                    }
+                }
+            }
+        }
+        return true;
+    }
+};

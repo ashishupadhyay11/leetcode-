@@ -1,0 +1,37 @@
+https://youtu.be/W9SIlE2jhBQ
+
+class Solution {
+public:
+    void solve(string &ans, int n, int k){
+        //Base case
+        if(n==1){                           //Insert whatever digit is left at the end
+            ans+=to_string(digits.back());
+            return;
+        }
+        //recursion for more than n places left to fill
+        int index = k/fact[n-1];   //no. of blocks to skip. Each block size = fact[n-1](1 based indexing)
+        
+        if(k%fact[n-1]==0)         //boundary check so that we do not go to one block behind 
+            index = index - 1;	   //eg- 6/3=2, in digits vec, value at index 2 =3 but we need to take 2 so we dec by 1
+        
+        ans = ans + to_string(digits[index]);   //add digit to ans
+        digits.erase(digits.begin()+index);     //remove used digit
+        k = k - fact[n-1]*index;                //update k by removing previous blocks and making k equal to the remainder when divided by fact[n-1]
+        solve(ans, n-1, k);                     //call again to get digit at second place
+    }
+    vector<int>fact, digits;
+    string getPermutation(int n, int k) {
+        fact.push_back(1);
+        int f=1;
+        for(int i=1; i<n;i++){      //push all factorials from 0 to n in fact
+            f=f*i;                  //this will help find block size
+            fact.push_back(f);
+        }
+        for(int i=1; i<=n;i++)      //push all digits from 0-n in vector
+            digits.push_back(i);
+        
+        string ans = "";
+        solve(ans,n,k);
+        return ans;
+    }
+};
