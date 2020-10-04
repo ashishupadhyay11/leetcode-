@@ -1,0 +1,20 @@
+https://practice.geeksforgeeks.org/problems/find-nth-root-of-m/0
+Basically the question is asking of the number m has a perfect nth root or not
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--){
+	    int n,m;
+	    cin>>n>>m;
+	    
+	    int res = round(pow(m,1.0/n));
+	    if(pow(res,n)==m)
+	        cout<<res<<endl;
+	    else cout<<-1<<endl;
+	}
+	return 0;
+}
