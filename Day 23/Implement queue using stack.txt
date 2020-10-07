@@ -1,0 +1,32 @@
+https://youtu.be/ma1S6vtkw9I
+
+class MyQueue {
+public:
+    stack<int> st1, st2;
+    /** Push element x to the back of queue. */
+    void push(int x) {
+        st1.push(x);
+    }
+    
+    /** Removes the element from in front of queue and returns that element. */
+    int pop() {
+        peek();
+        int t = st2.top();
+        st2.pop();
+        return t;
+    }
+    
+    /** Get the front element. */
+    int peek() {
+        if(st2.empty())
+            while(st1.size())
+                st2.push(st1.top()), st1.pop();
+        
+        return st2.top();
+    }
+    
+    /** Returns whether the queue is empty. */
+    bool empty() {
+        return st1.empty() && st2.empty();
+    }
+};

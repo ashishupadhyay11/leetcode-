@@ -1,0 +1,18 @@
+vector <int> bfs(vector<int> g[], int n) {
+    queue<int>q;
+    vector<int>result;
+    vector<bool>visited(n+1, false);
+    
+    q.push(0);
+    while(!q.empty()){
+        for(auto it: g[q.front()]){
+            if(!visited[it]){
+                visited[it] = true;
+                q.push(it);
+            }
+        }
+        result.push_back(q.front());
+        q.pop();
+    }
+    return result;
+}
