@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int AirPairs(char s1, char s2){
+        if(s1=='(' && s2==')')
+            return 1;
+        if(s1=='[' && s2==']')
+            return 1;
+        if(s1=='{' && s2=='}')
+            return 1;
+        return 0;
+    }
+    bool isValid(string s) {
+        stack<char>s1;
+        int n = s.size();
+        
+        for(int i=0; i<n ;i++){
+            if(s[i]=='(' || s[i]=='[' || s[i]=='{')
+                s1.push(s[i]);
+            
+            else if(s[i] == ')' || s[i]==']' || s[i]=='}'){
+                if(s1.empty() || !AirPairs(s1.top(), s[i]))
+                    return 0;
+                else s1.pop();
+            }
+        }
+        return s1.empty();
+    }
+};

@@ -1,0 +1,19 @@
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        stack<int>s;
+        vector<int>result;
+        unordered_map<int, int>m;
+        
+        for(auto it: nums2){
+            while(!s.empty() && it > s.top()){
+                m[s.top()] = it;
+                s.pop();
+            }
+            s.push(it); //nums1 is subset of nums2
+        }
+        for(auto n: nums1)
+            result.push_back(m.count(n) ? m[n] : -1);
+        return result;
+    }
+};
