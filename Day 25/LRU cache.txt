@@ -1,0 +1,46 @@
+https://www.youtube.com/watch?v=UudCSLREm08
+
+class LRUCache {
+    list<pair<int,int>>cache;
+    unordered_map<int, list<pair<int,int>>::iterator>mymap; //key, address in dequeue pair
+    
+    void refresh_position(int key, int value){
+        cache.erase(mymap[key]);
+        cache.push_front(make_pair(key,value));
+        mymap[key] = cache.begin();     //Address of new pos that is stored in map
+    }
+    int capacity;
+public:
+    LRUCache(int capacity) {
+        this->capacity = capacity;  //gives value to the private capacity which is initialised when creating new object 
+    }
+    
+    int get(int key) {
+        if(mymap.find(key)!=mymap.end()){   //if found update to front
+            refresh_position(key, mymap[key]->second); //mymap[key]->second = address of key (iterator)
+            return mymap[key]->second;
+        }
+        return -1;  //not found
+    }
+    
+    void put(int key, int value) {
+        if(mymap.find(key)!=mymap.end())
+            refresh_position(key, value);
+        else{ //Add to cache
+            cache.push_front(make_pair(key,value));
+            mymap[key]=cache.begin();
+            if(mymap.size() > capacity){
+                mymap.erase(cache.back().first);   //cache.beck() is a pointer to the back sp dot op used
+                cache.pop_back();
+            }
+        }
+    }
+};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
+ 
