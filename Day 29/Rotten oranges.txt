@@ -1,0 +1,48 @@
+https://leetcode.com/problems/rotting-oranges/discuss/241139/C%2B%2B-super-easy-and-clean-solution-beats-100-time-and-100-space!
+https://www.youtube.com/watch?v=CxrnOTUlNJE
+
+class Solution {
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+        int ct = 0;                                         //cells with oranges of any type
+        int res = -1;
+        queue<vector<int>> rotten;                          //stores coordinates of rotten oranges
+        
+        vector<vector<int>>dir = {{-1,0},{1,0},{0,-1},{0,1}}; //directions in which orange can rot
+        
+        for(int i=0; i<grid.size();i++){
+            for(int j=0; j<grid[0].size();j++){
+                if(grid[i][j] > 0)
+                    ct++;       
+                if(grid[i][j] == 2)
+                    rotten.push({i,j});
+            }
+        }
+        
+        while(!rotten.empty()){                              //BFS
+            res++;
+            
+            int size = rotten.size();
+            
+            for(int k=0; k<size ; k++){
+                vector<int> cur = rotten.front();
+                rotten.pop();
+                
+                ct--;                                       //remove from total oranges count
+                
+                for(int i=0; i<4;i++){                      //check all directions for current node
+                    
+                    int x = cur[0] + dir[i][0];
+                    int y = cur[1] + dir[i][1];
+                    
+                    if(x >= grid.size() || x < 0 || y >= grid[0].size() || y < 0 || grid[x][y]!=1)
+                        continue;
+                    
+                    grid[x][y]=2;                              //orange gets rotten
+                    rotten.push({x,y});
+                }
+            }
+        }
+        return (ct==0)?max(0,res):-1;                       //if we are able to traverse through all                                                                 //oranges, return total tim else return -1
+    }
+};
